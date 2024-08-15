@@ -17,7 +17,7 @@ Just clone the repo and run `./bootstrap.sh`.
 - [Helix](https://helix-editor.com/)
 - [Containerlab](https://containerlab.dev/)
 - [Go](https://go.dev/)
-- [Github](https://cli.github.com/) CLI
+- [Github CLI](https://cli.github.com/)
 - [fd](https://github.com/sharkdp/fd)
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [fzf](https://github.com/junegunn/fzf)
