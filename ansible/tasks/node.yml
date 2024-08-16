@@ -1,0 +1,31 @@
+---
+- name: Node | Install nvm
+  become: false
+  ansible.builtin.shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+  args:
+    executable: /bin/bash
+    chdir: "{{ home }}"
+    creates: "{{ home }}/.nvm/nvm.sh"
+
+- name: Node | Install node
+  become: false
+  shell: >
+    . {{ home }}/.nvm/nvm.sh && nvm install {{ node_version }}
+  args:
+    executable: /bin/bash
+    chdir: "{{ home }}"
+    creates: "{{ home }}/.nvm/versions/node/v{{ node_version }}"
+
+- name: Node | Install node modules
+  become: false
+  community.general.npm:
+    executable: "{{ home }}/.nvm/versions/node/v{{ node_version }}/bin/npm"
+    name: "{{ item }}"
+    global: true
+  environment:
+    PATH: "{{ home }}/.nvm/versions/node/v{{ node_version }}/bin:{{ ansible_env.PATH }}"
+  loop:
+    - yaml-language-server
+    - ansible-language-server
+    - prettier

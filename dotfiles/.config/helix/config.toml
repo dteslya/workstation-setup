@@ -34,7 +34,7 @@ nnbsp = "none"
 newline = "none"
 
 [editor.whitespace.characters]
-space = "."
+space = "·"
 nbsp = "⍽"
 nnbsp = "␣"
 tab = "→"

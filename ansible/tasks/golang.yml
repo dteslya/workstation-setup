@@ -1,0 +1,18 @@
+---
+- name: Golang | Install Golang
+  ansible.builtin.include_role:
+    name: gantsign.golang
+
+- name: Golang | Create Golang $GOPATH dir
+  ansible.builtin.file:
+    path: "{{ home }}/go"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    state: directory
+
+- name: "Golang | Set Golang env vars in .profile"
+  blockinfile:
+    path: "{{ home }}/.profile"
+    block: |
+      export GOPATH={{ home }}/go
+      export PATH=$PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin

@@ -1,0 +1,31 @@
+---
+- name: dotfiles | Find all files in the dotfiles directory
+  find:
+    paths: "{{ dotfiles_dir }}"
+    recurse: true
+    file_type: file
+  register: dotfiles
+
+- name: dotfiles | Ensure parent directories exist
+  ansible.builtin.file:
+    path: "{{ home }}/{{ item.path | relpath(dotfiles_dir) | dirname }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: '0755'
+  loop: "{{ dotfiles.files }}"
+  loop_control:
+    label: "{{ item.path | relpath(dotfiles_dir) | dirname }}"
+
+- name: dotfiles | Create symlinks for dotfiles
+  loop: "{{ dotfiles.files }}"
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "{{ home }}/{{ item.path | relpath(dotfiles_dir) }}"
+    state: link
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    follow: false
+    force: true
+  loop_control:
+    label: "{{ item.path | relpath(dotfiles_dir) }}"

@@ -27,7 +27,14 @@ Just clone the repo and run `./bootstrap.sh`.
 - [Yazi](https://yazi-rs.github.io/)
 - [Zellij](https://zellij.dev/)
 - [Poetry](https://python-poetry.org/)
+- [ruff](https://docs.astral.sh/ruff/)
+- [Node](https://nodejs.org/) via [nvm](https://github.com/nvm-sh/nvm)
+- [yamllint](https://github.com/adrienverge/yamllint)
+- [yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
+- [ansible-language-server](https://github.com/ansible/vscode-ansible/blob/main/docs/als/README.md)
+- [prettier](https://prettier.io/)
 
 ## TODO
 
-- Implement dotfiles management
+- ~Implement dotfiles management~
+- Add gopls, dlv, pyright, etc. and make it work with Helix

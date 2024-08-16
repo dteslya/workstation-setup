@@ -1,0 +1,8 @@
+---
+- name: Python | Install Python packages
+  pip:
+    name:
+      - poetry
+      - ruff
+      - yamllint
+    state: latest

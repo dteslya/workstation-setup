@@ -1,81 +1,11 @@
 ---
 - hosts: all
-  become: yes
+  become: true
 
   tasks:
-    - name: "Add Neovim PPA"
-      ansible.builtin.apt_repository:
-        repo: 'ppa:neovim-ppa/unstable'
-        state: present
-
-    - name: "Add Helix PPA"
-      ansible.builtin.apt_repository:
-        repo: 'ppa:maveonair/helix-editor'
-        state: present
-
-    - name: "Add Containerlab APT repo"
-      ansible.builtin.apt_repository:
-        repo: 'deb [trusted=yes] http://netdevops.fury.site/apt/ /'
-        state: present
-        filename: containerlab
-
-    - name: "Install packages"
-      apt: 
-        update_cache: true
-        name:
-          - neovim
-          - fd-find
-          - ripgrep
-          - fzf
-          - ipcalc
-          - containerlab
-        state: latest
-
-    - name: "Install gh"
-      ansible.builtin.include_role:
-        name: sgaunet.gh_role_installer
-        vars_from: gh.yml
-
-    - name: "Install lazygit"
-      ansible.builtin.include_role:
-        name: sgaunet.gh_role_installer
-        vars_from: lazygit.yml
-
-    - name: "Install pre-commit"
-      ansible.builtin.include_role:
-        name: sgaunet.gh_role_installer
-        vars_from: pre-commit.yml
-
-    - name: "Install yazi"
-      ansible.builtin.include_role:
-        name: sgaunet.gh_role_installer
-        vars_from: yazi.yml
-
-    - name: "Install zellij"
-      ansible.builtin.include_role:
-        name: sgaunet.gh_role_installer
-        vars_from: zellij.yml
-
-    - name: "Install Golang"
-      ansible.builtin.include_role:
-        name: gantsign.golang
-
-    - name: "Install Python packages"
-      pip:
-        name:
-          - poetry
-        state: latest
-
-    - name: Create Golang $GOPATH dir
-      ansible.builtin.file:
-        path: "{{ home }}/go"
-        owner: "{{ user }}"
-        group: "{{ group }}"
-        state: directory
-
-    - name: "Set Golang env vars in .profile"
-      blockinfile:
-        path: "{{ home }}/.profile"
-        block: |
-          export GOPATH={{ home }}/go
-          export PATH=$PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
+    - import_tasks: tasks/packages.yml
+    - import_tasks: tasks/python.yml
+    - import_tasks: tasks/node.yml
+      vars:
+        node_version: 22.6.0
+    - import_tasks: tasks/dotfiles.yml

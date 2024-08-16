@@ -68,8 +68,7 @@ function install_docker_ubuntu {
 }
 
 function check_ansible {
-    docker inspect --type image localhost/$ANSIBLE_IMAGE &> /dev/null
-    if [ $? -eq 0 ]; then
+    if docker inspect --type image localhost/$ANSIBLE_IMAGE &> /dev/null ; then 
         echo "Ansible image found. Proceeding..."
     else
         echo "Ansible image not found. Building..."
@@ -84,7 +83,7 @@ function run_ansible {
     -v $(pwd)/ansible:/ansible \
     localhost/$ANSIBLE_IMAGE \
     ansible-playbook -i $(hostname), -c ssh --ssh-extra-args '-o StrictHostKeyChecking=no' --user $(whoami) --ask-pass --ask-become-pass /ansible/bootstrap.yml \
-    --extra-vars "home=$HOME user=$(whoami) group=$(id -g)"
+    --extra-vars "dotfiles_dir=$(pwd)/dotfiles home=$HOME user=$(whoami) group=$(id -g)"
 }
 
 # Check if OS is supported
