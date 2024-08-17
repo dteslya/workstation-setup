@@ -10,9 +10,45 @@
     group: "{{ group }}"
     state: directory
 
-- name: "Golang | Set Golang env vars in .profile"
+- name: Golang | Set Golang env vars in .profile
   blockinfile:
     path: "{{ home }}/.profile"
     block: |
       export GOPATH={{ home }}/go
       export PATH=$PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
+
+- name: Golang | Install golangci-lint-langserver
+  become: false
+  shell: >
+    go install github.com/nametake/golangci-lint-langserver@latest
+  args:
+    executable: /bin/bash
+    chdir: "{{ home }}"
+    creates: "{{ home }}/go/bin/golangci-lint-langserver"
+  environment:
+    GOPATH: "{{ home }}/go"
+    PATH: $PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
+
+- name: Golang | Install Delve
+  become: false
+  shell: >
+    go install github.com/go-delve/delve/cmd/dlv@latest
+  args:
+    executable: /bin/bash
+    chdir: "{{ home }}"
+    creates: "{{ home }}/go/bin/dlv"
+  environment:
+    GOPATH: "{{ home }}/go"
+    PATH: $PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
+
+- name: Golang | Install goimports
+  become: false
+  shell: >
+    go install golang.org/x/tools/cmd/goimports@latest
+  args:
+    executable: /bin/bash
+    chdir: "{{ home }}"
+    creates: "{{ home }}/go/bin/goimports"
+  environment:
+    GOPATH: "{{ home }}/go"
+    PATH: $PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
