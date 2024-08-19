@@ -16,10 +16,13 @@
     filename: containerlab
 
 - name: "Packages | Install packages"
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     name:
+      - python3-pip
+      - pipx
       - neovim
+      - helix
       - fd-find
       - ripgrep
       - fzf

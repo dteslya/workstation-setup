@@ -1,8 +1,10 @@
 ---
-- name: Python | Install Python packages
-  pip:
-    name:
-      - poetry
-      - ruff
-      - yamllint
-    state: latest
+- name: Install Poetry
+  community.general.pipx:
+    name: poetry
+- name: Install Ruff
+  community.general.pipx:
+    name: ruff
+- name: Install yamllint
+  community.general.pipx:
+    name: yamllint
