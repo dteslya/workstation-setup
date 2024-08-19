@@ -17,6 +17,18 @@
       export GOPATH={{ home }}/go
       export PATH=$PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
 
+- name: Golang | Install gopls
+  become: false
+  shell: >
+    go install golang.org/x/tools/gopls@latest
+  args:
+    executable: /bin/bash
+    chdir: "{{ home }}"
+    creates: "{{ home }}/go/bin/gopls"
+  environment:
+    GOPATH: "{{ home }}/go"
+    PATH: $PATH:{{ ansible_local.golang.general.home }}/bin:$GOPATH/bin
+
 - name: Golang | Install golangci-lint-langserver
   become: false
   shell: >
