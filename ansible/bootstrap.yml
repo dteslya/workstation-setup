@@ -3,8 +3,13 @@
   become: true
 
   tasks:
+    - import_tasks: tasks/profile.yml
+      vars:
+        default_editor: hx
     - import_tasks: tasks/packages.yml
     - import_tasks: tasks/golang.yml
+      vars:
+        golang_version: "1.22.5"
     - import_tasks: tasks/python.yml
     - import_tasks: tasks/node.yml
       vars:
