@@ -1,10 +1,21 @@
 ---
-- name: Install Poetry
+- name: Python | Add ~/.local/bin to $PATH
+  blockinfile:
+    path: "{{ home }}/.profile"
+    block: |
+      export PATH=$PATH:{{ home }}/.local/bin
+
+- name: Python | Install Poetry
+  become: false
   community.general.pipx:
     name: poetry
-- name: Install Ruff
+
+- name: Python | Install Ruff
+  become: false
   community.general.pipx:
     name: ruff
-- name: Install yamllint
+
+- name: Python | Install yamllint
+  become: false
   community.general.pipx:
     name: yamllint
