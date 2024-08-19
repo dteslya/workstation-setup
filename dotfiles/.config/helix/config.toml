@@ -4,9 +4,12 @@ theme = "dark_plus"
 line-number = "relative"
 mouse = false
 cursorline = true
-bufferline = "multiple"
+bufferline = "always"
 color-modes = true
 true-color = true
+
+[editor.lsp]
+display-messages = true
 
 [editor.cursor-shape]
 insert = "bar"
