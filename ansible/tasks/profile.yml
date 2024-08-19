@@ -1,0 +1,6 @@
+---
+- name: Profile | Set default editor
+  blockinfile:
+    path: "{{ home }}/.profile"
+    block: |
+      export EDITOR={{ default_editor }}
