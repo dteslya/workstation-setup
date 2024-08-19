@@ -41,8 +41,9 @@ function install_docker {
 function post_install_docker {
     # instructions from:
     # https://docs.docker.com/engine/install/linux-postinstall/
-    sudo groupadd docker
+    sudo groupadd -f docker
     sudo usermod -aG docker "$USER"
+    echo "Please re-login to apply new group membership and run this script again"
 }
 
 function install_docker_ubuntu {
@@ -72,7 +73,7 @@ function check_ansible {
         echo "Ansible image found. Proceeding..."
     else
         echo "Ansible image not found. Building..."
-        docker build -f ansible/Dockerfile --build-arg="ANSIBLE_IMAGE_TAG=$ANSIBLE_IMAGE_TAG" -t localhost/$ANSIBLE_IMAGE
+        docker build --build-arg="ANSIBLE_IMAGE_TAG=$ANSIBLE_IMAGE_TAG" -t localhost/$ANSIBLE_IMAGE ansible
     fi
 }
 
