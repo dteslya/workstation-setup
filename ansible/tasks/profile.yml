@@ -1,6 +1,35 @@
 ---
 - name: Profile | Set default editor
+  become: false
   blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK set editor"
     path: "{{ home }}/.profile"
     block: |
       export EDITOR={{ default_editor }}
+
+- name: Profile | Remove ssh identities on logout
+  become: false
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK remove ssh identities"
+    path: "{{ home }}/.bash_logout"
+    block: |
+      ssh-add -D
+
+# https://stackoverflow.com/a/38980986
+- name: Profile | Set SSH_AUTH_SOCK
+  become: false
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK set SSH_AUTH_SOCK"
+    path: "{{ home }}/.profile"
+    block: |
+      export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+- name: Profile | Enable ssh-agent systemd user service
+  become: false
+  ansible.builtin.systemd_service:
+    name: ssh-agent
+    state: started
+    enabled: true
+    scope: user
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ uid }}"
