@@ -84,7 +84,7 @@ function run_ansible {
     -v $(pwd)/ansible:/ansible \
     localhost/$ANSIBLE_IMAGE \
     ansible-playbook -i $(hostname), -c ssh --ssh-extra-args '-o StrictHostKeyChecking=no' --user $(whoami) --ask-pass --ask-become-pass /ansible/bootstrap.yml \
-    --extra-vars "dotfiles_dir=$(pwd)/dotfiles home=$HOME user=$(whoami) group=$(id -g)" \
+    --extra-vars "dotfiles_dir=$(pwd)/dotfiles home=$HOME user=$(whoami) group=$(id -g) uid=$(id -u)" \
     "$@"
 }
 
