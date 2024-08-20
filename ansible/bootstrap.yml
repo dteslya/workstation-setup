@@ -6,12 +6,18 @@
     - import_tasks: tasks/profile.yml
       vars:
         default_editor: hx
+      tags: profile
     - import_tasks: tasks/packages.yml
+      tags: packages
     - import_tasks: tasks/golang.yml
       vars:
         golang_version: "1.22.5"
+      tags: golang
     - import_tasks: tasks/python.yml
+      tags: python
     - import_tasks: tasks/node.yml
       vars:
         node_version: 22.6.0
+      tags: node
     - import_tasks: tasks/dotfiles.yml
+      tags: dotfiles
