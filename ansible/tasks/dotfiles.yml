@@ -4,21 +4,25 @@
     paths: "{{ dotfiles_dir }}"
     recurse: true
     file_type: file
-  register: dotfiles
+    hidden: true
+  register: all_items
+
+- name: dotfiles | Extract unique directories
+  set_fact:
+    unique_dirs: "{{ all_items.files | map(attribute='path') | map('dirname') | unique | list }}"
 
 - name: dotfiles | Ensure parent directories exist
   ansible.builtin.file:
-    path: "{{ home }}/{{ item.path | relpath(dotfiles_dir) | dirname }}"
+    path: "{{ home }}/{{ item | relpath(dotfiles_dir) }}"
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-    mode: '0755'
-  loop: "{{ dotfiles.files }}"
+    mode: "0755"
+  loop: "{{ unique_dirs }}"
   loop_control:
-    label: "{{ item.path | relpath(dotfiles_dir) | dirname }}"
+    label: "{{ item | relpath(dotfiles_dir) }}"
 
 - name: dotfiles | Create symlinks for dotfiles
-  loop: "{{ dotfiles.files }}"
   ansible.builtin.file:
     src: "{{ item.path }}"
     dest: "{{ home }}/{{ item.path | relpath(dotfiles_dir) }}"
@@ -27,5 +31,7 @@
     group: "{{ group }}"
     follow: false
     force: true
+  loop: "{{ all_items.files }}"
+  when: item.path != dotfiles_dir
   loop_control:
     label: "{{ item.path | relpath(dotfiles_dir) }}"
