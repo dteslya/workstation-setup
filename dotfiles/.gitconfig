@@ -3,3 +3,5 @@
 	email = dmitry.teslya@gmail.com
 [init]
 	defaultBranch = main
+[rebase]
+	autoStash = true
