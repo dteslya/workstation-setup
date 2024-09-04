@@ -82,8 +82,9 @@ function run_ansible {
   docker run \
     --rm -it \
     -v $(pwd)/ansible:/ansible \
+    --add-host=host.docker.internal:host-gateway \
     localhost/$ANSIBLE_IMAGE \
-    ansible-playbook -i $(hostname), -c ssh --ssh-extra-args '-o StrictHostKeyChecking=no' --user $(whoami) --ask-pass --ask-become-pass /ansible/bootstrap.yml \
+    ansible-playbook -i host.docker.internal, -c ssh --ssh-extra-args '-o StrictHostKeyChecking=no' --user $(whoami) --ask-pass --ask-become-pass /ansible/bootstrap.yml \
     --extra-vars "dotfiles_dir=$(pwd)/dotfiles home=$HOME user=$(whoami) group=$(id -g) uid=$(id -u)" \
     "$@"
 }
@@ -99,4 +100,3 @@ check_ansible
 
 # Run ansible playbook
 run_ansible "$@"
-
