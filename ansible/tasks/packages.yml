@@ -28,6 +28,7 @@
       - fzf
       - ipcalc
       - traceroute
+      - whois
       - containerlab
     state: latest
 
