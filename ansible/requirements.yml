@@ -2,3 +2,4 @@
 # Install a role from the Ansible Galaxy
 - src: sgaunet.gh_role_installer
 - src: gantsign.golang
+- src: hurricanehrndz.rustup

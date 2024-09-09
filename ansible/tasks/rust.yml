@@ -1,0 +1,4 @@
+---
+- name: Rust | Install Rust
+  ansible.builtin.include_role:
+    name: hurricanehrndz.rustup

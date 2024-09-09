@@ -21,3 +21,8 @@
       vars:
         node_version: 22.6.0
       tags: node
+    - import_tasks: tasks/rust.yml
+      vars:
+        rustup_user: "{{ user }}"
+        rustup_cargo_crates: []
+      tags: rust
