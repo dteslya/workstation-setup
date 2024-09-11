@@ -1,6 +1,6 @@
 ---
 - name: dotfiles | Find all files in the dotfiles directory
-  find:
+  ansible.builtin.find:
     paths: "{{ dotfiles_dir }}"
     recurse: true
     file_type: file
@@ -8,7 +8,7 @@
   register: all_items
 
 - name: dotfiles | Extract unique directories
-  set_fact:
+  ansible.builtin.set_fact:
     unique_dirs: "{{ all_items.files | map(attribute='path') | map('dirname') | unique | list }}"
 
 - name: dotfiles | Ensure parent directories exist

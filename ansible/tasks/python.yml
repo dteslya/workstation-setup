@@ -1,6 +1,6 @@
 ---
 - name: Python | Add ~/.local/bin to $PATH
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "{{ home }}/.profile"
     block: |
       export PATH=$PATH:{{ home }}/.local/bin

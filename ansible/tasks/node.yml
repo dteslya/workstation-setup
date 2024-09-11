@@ -2,7 +2,7 @@
 - name: Node | Install nvm
   become: false
   ansible.builtin.shell: >
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+    set -o pipefail && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
   args:
     executable: /bin/bash
     chdir: "{{ home }}"
@@ -10,7 +10,7 @@
 
 - name: Node | Install node
   become: false
-  shell: >
+  ansible.builtin.shell: >
     . {{ home }}/.nvm/nvm.sh && nvm install {{ node_version }}
   args:
     executable: /bin/bash

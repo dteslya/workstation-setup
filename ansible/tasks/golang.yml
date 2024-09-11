@@ -9,9 +9,10 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     state: directory
+    mode: 0755
 
 - name: Golang | Set Golang env vars in .profile
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "{{ home }}/.profile"
     block: |
       export GOPATH={{ home }}/go
@@ -19,7 +20,7 @@
 
 - name: Golang | Install gopls
   become: false
-  shell: >
+  ansible.builtin.shell: >
     go install golang.org/x/tools/gopls@latest
   args:
     executable: /bin/bash
@@ -31,7 +32,7 @@
 
 - name: Golang | Install golangci-lint-langserver
   become: false
-  shell: >
+  ansible.builtin.shell: >
     go install github.com/nametake/golangci-lint-langserver@latest
   args:
     executable: /bin/bash
@@ -43,7 +44,7 @@
 
 - name: Golang | Install Delve
   become: false
-  shell: >
+  ansible.builtin.shell: >
     go install github.com/go-delve/delve/cmd/dlv@latest
   args:
     executable: /bin/bash
@@ -55,7 +56,7 @@
 
 - name: Golang | Install goimports
   become: false
-  shell: >
+  ansible.builtin.shell: >
     go install golang.org/x/tools/cmd/goimports@latest
   args:
     executable: /bin/bash
