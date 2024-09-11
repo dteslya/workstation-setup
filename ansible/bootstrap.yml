@@ -5,6 +5,8 @@
   tasks:
     - import_tasks: tasks/dotfiles.yml
       tags: dotfiles
+    - import_tasks: tasks/keyd.yml
+      tags: keyd
     - import_tasks: tasks/profile.yml
       vars:
         default_editor: hx
@@ -24,5 +26,6 @@
     - import_tasks: tasks/rust.yml
       vars:
         rustup_user: "{{ user }}"
-        rustup_cargo_crates: []
+        rustup_cargo_crates:
+          - tree-sitter-cli
       tags: rust

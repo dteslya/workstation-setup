@@ -1,0 +1,52 @@
+---
+- name: keyd | Check if keyd is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/keyd
+  register: keyd_installed
+
+- name: keyd | Install keyd dependencies
+  ansible.builtin.apt:
+    name:
+      - git
+      - build-essential
+    state: present
+  when: not keyd_installed.stat.exists
+
+- name: keyd | Clone keyd repository
+  ansible.builtin.git:
+    repo: 'https://github.com/rvaiya/keyd'
+    dest: /tmp/keyd
+    version: master
+  when: not keyd_installed.stat.exists
+
+- name: keyd | Build and install keyd
+  ansible.builtin.shell:
+    cmd: |
+      cd /tmp/keyd
+      make
+      make install
+    creates: /usr/local/bin/keyd
+
+- name: keyd | Create keyd config directory
+  ansible.builtin.file:
+    path: /etc/keyd
+    state: directory
+    mode: '0755'
+
+- name: keyd | Copy keyd configuration file
+  ansible.builtin.copy:
+    src: files/keyd/default.conf
+    dest: /etc/keyd/default.conf
+    mode: '0644'
+
+- name: keyd | Enable keyd service
+  ansible.builtin.systemd:
+    name: keyd
+    enabled: true
+    state: started
+
+- name: keyd | Clean up temporary files
+  ansible.builtin.file:
+    path: /tmp/keyd
+    state: absent
+  when: not keyd_installed.stat.exists
